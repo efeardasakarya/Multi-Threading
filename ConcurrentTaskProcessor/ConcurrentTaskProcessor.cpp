@@ -129,11 +129,12 @@ int main()
 	*/
 
 	CorruptedThread corruptedThread;
-	
-	std::jthread w1([&] {corruptedThread.add(20); });
-	std::jthread w2([&] {corruptedThread.subtract(10); });
-	std::jthread w3([&] {corruptedThread.divide(2); });
 
+	{
+		std::jthread w1([&] {corruptedThread.add(20); });
+		std::jthread w2([&] {corruptedThread.subtract(10); });
+		std::jthread w3([&] {corruptedThread.divide(2); });
+	}
 	
 
 

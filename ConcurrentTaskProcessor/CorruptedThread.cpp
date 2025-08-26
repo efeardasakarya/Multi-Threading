@@ -4,23 +4,27 @@
 
 
 	int victim = 0;
+	std::mutex mtx;
 
 
 	void CorruptedThread::add(int a)
 	{
-		victim += a;
+		std::lock_guard<std::mutex> lock(mtx);
+		victim +=a;
 	}
 
 
 	void CorruptedThread::subtract(int b)
 	{
-		victim -= b;
+		std::lock_guard<std::mutex> lock(mtx);
+		victim -=b;
 	}
 
 
 
 	void CorruptedThread::divide(int c)
 	{
+		std::lock_guard<std::mutex> lock(mtx);
 		victim /= c;
 	}
 
