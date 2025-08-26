@@ -11,6 +11,8 @@
 #include <queue>
 #include <condition_variable>
 #include <functional>
+#include <sstream>
+#include <map>
 
 //Variables
 std::atomic<bool> running{ true };
@@ -18,23 +20,32 @@ int threadIndex = 0;
 std::queue < std::function<void()> > tasks;
 std::mutex ioMutex;
 std::mutex qMutex;
+std::mutex idMutex;
 std::condition_variable cv;
+ 
+std::map <std::thread::id, std::string > idList;
 
 
-
-void appendNumbers(int a, int b)
+void registerThread(std::thread::id id,const  std::string& name)
 {
-	std::lock_guard<std::mutex> lock(ioMutex);
-	std::cout << std::to_string(a) + std::to_string(b) <<" -> Append worked" << std::endl;
+	std::lock_guard<std::mutex> idLock(idMutex);
+	idList.emplace(id, name);
+
 }
 
-void addNumbers(int a, int b)
+void appendNumbers(int a, int b )
 {
 	std::lock_guard<std::mutex> lock(ioMutex);
-	std::cout << a + b << " -> Add worked" << std::endl;
+	std::cout << std::to_string(a) + std::to_string(b) <<" -> Append worked. Worker name -> "<< idList.at(std::this_thread::get_id())  << std::endl;
 }
 
-void printReverse(std::string text)
+void addNumbers(int a, int b )
+{
+	std::lock_guard<std::mutex> lock(ioMutex);
+	std::cout << a + b << " -> Add worked. Worker name ->"<< idList.at(std::this_thread::get_id()) << std::endl;
+}
+
+void printReverse(std::string text )
 {
 	std::lock_guard<std::mutex> lock(ioMutex);
 	for (int i = static_cast<int>(text.size()) - 1; i >= 0; i--)
@@ -42,7 +53,7 @@ void printReverse(std::string text)
 		std::cout << text[i];
 
 	}
-	std::cout<<" -> Reverse worked" << std::endl;
+	std::cout<<" -> Reverse worked. Worker name -> "<< idList.at(std::this_thread::get_id()) << std::endl;
 }
 
 void producer()
@@ -99,10 +110,25 @@ void worker()
 
 int main()
 {
-	std::jthread p1(producer);
+	
 	std::jthread w1(worker), w2(worker), w3(worker);
 
+	
+	registerThread(w1.get_id(), "w1");
+	registerThread(w2.get_id(), "w2");
+	registerThread(w3.get_id(), "w3");
+
+	
+	std::jthread p1(producer);
+
+	
+	
+
 	std::this_thread::sleep_for(std::chrono::seconds(10)); // 10 sn çalıştır
+
+
+
+
 	running = false;
 	cv.notify_all();
 
