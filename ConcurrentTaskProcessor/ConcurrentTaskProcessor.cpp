@@ -14,6 +14,9 @@
 #include <sstream>
 #include <map>
 
+#include "CorruptedThread.h"
+
+
 //Variables
 std::atomic<bool> running{ true };
 int threadIndex = 0;
@@ -22,7 +25,6 @@ std::mutex ioMutex;
 std::mutex qMutex;
 std::mutex idMutex;
 std::condition_variable cv;
- 
 std::map <std::thread::id, std::string > idList;
 
 
@@ -110,29 +112,32 @@ void worker()
 
 int main()
 {
-	
+/*
 	std::jthread w1(worker), w2(worker), w3(worker);
-
 	
 	registerThread(w1.get_id(), "w1");
 	registerThread(w2.get_id(), "w2");
 	registerThread(w3.get_id(), "w3");
-
 	
 	std::jthread p1(producer);
 
-	
-	
 
 	std::this_thread::sleep_for(std::chrono::seconds(10)); // 10 sn çalıştır
 
-
-
-
 	running = false;
 	cv.notify_all();
+	*/
+
+	CorruptedThread corruptedThread;
+	
+	std::jthread w1([&] {corruptedThread.add(20); });
+	std::jthread w2([&] {corruptedThread.subtract(10); });
+	std::jthread w3([&] {corruptedThread.divide(2); });
 
 	
+
+
+	std::cout << corruptedThread.victim;
 
 }
 
