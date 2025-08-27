@@ -127,23 +127,23 @@ int main()
 		cv.notify_all();
 		*/
 	
-	/*
+	
 	for (int i = 1 ; i < 25; i++)
 	{
+		std::cout << "----- Start "<< i <<"count thread with Racing condition and 1 count thread with Safe condition---- - " << '\n';
+
 		CorruptedThread corruptedThread(i);
 	
 		corruptedThread.createWorkersByAddFunction();
 
-	}
-	*/
-
-	for (int i = 1; i < 25; i++)
-	{
 		FixedThread fixedThread(i);
 
 		fixedThread.createWorkersByAddFunction();
-	}
 
+		std::cout << "----- End "<< i<<" count thread with Racing condition and 1 count thread with Safe condition ----- " << '\n';
+		std::cout << '\n';
+	}
+	
 
 
 
