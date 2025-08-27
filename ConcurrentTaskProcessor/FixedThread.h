@@ -17,9 +17,7 @@ public:
 
 	std::atomic<int> fixedVictim{ 0 };
 
-	FixedThread(int threads);
-
-	int iterator = 1;
+	FixedThread(int threads);  //CONSTRUCTOR
 
 	void createWorkersByAddFunction();
 

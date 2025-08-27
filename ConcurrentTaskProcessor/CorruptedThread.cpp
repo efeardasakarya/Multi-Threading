@@ -1,7 +1,5 @@
 ﻿#include "CorruptedThread.h"
-#include <chrono>
-#include <iostream>
-#include <latch>
+
 
 
 CorruptedThread::CorruptedThread(int threads)
