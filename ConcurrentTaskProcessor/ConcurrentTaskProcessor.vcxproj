@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="ConcurrentTaskProcessor.cpp" />
     <ClCompile Include="CorruptedThread.cpp" />
+    <ClCompile Include="FixedThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CorruptedThread.h" />
+    <ClInclude Include="FixedThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,7 +15,7 @@
 #include <map>
 
 #include "CorruptedThread.h"
-
+#include "FixedThread.h"
 
 //Variables
 std::atomic<bool> running{ true };
@@ -28,26 +28,26 @@ std::condition_variable cv;
 std::map <std::thread::id, std::string > idList;
 
 
-void registerThread(std::thread::id id,const  std::string& name)
+void registerThread(std::thread::id id, const  std::string& name)
 {
 	std::lock_guard<std::mutex> idLock(idMutex);
 	idList.emplace(id, name);
 
 }
 
-void appendNumbers(int a, int b )
+void appendNumbers(int a, int b)
 {
 	std::lock_guard<std::mutex> lock(ioMutex);
-	std::cout << std::to_string(a) + std::to_string(b) <<" -> Append worked. Worker name -> "<< idList.at(std::this_thread::get_id())  << std::endl;
+	std::cout << std::to_string(a) + std::to_string(b) << " -> Append worked. Worker name -> " << idList.at(std::this_thread::get_id()) << std::endl;
 }
 
-void addNumbers(int a, int b )
+void addNumbers(int a, int b)
 {
 	std::lock_guard<std::mutex> lock(ioMutex);
-	std::cout << a + b << " -> Add worked. Worker name ->"<< idList.at(std::this_thread::get_id()) << std::endl;
+	std::cout << a + b << " -> Add worked. Worker name ->" << idList.at(std::this_thread::get_id()) << std::endl;
 }
 
-void printReverse(std::string text )
+void printReverse(std::string text)
 {
 	std::lock_guard<std::mutex> lock(ioMutex);
 	for (int i = static_cast<int>(text.size()) - 1; i >= 0; i--)
@@ -55,7 +55,7 @@ void printReverse(std::string text )
 		std::cout << text[i];
 
 	}
-	std::cout<<" -> Reverse worked. Worker name -> "<< idList.at(std::this_thread::get_id()) << std::endl;
+	std::cout << " -> Reverse worked. Worker name -> " << idList.at(std::this_thread::get_id()) << std::endl;
 }
 
 void producer()
@@ -112,21 +112,21 @@ void worker()
 
 int main()
 {
-/*
-	std::jthread w1(worker), w2(worker), w3(worker);
-	
-	registerThread(w1.get_id(), "w1");
-	registerThread(w2.get_id(), "w2");
-	registerThread(w3.get_id(), "w3");
-	
-	std::jthread p1(producer);
+	/*
+		std::jthread w1(worker), w2(worker), w3(worker);
+
+		registerThread(w1.get_id(), "w1");
+		registerThread(w2.get_id(), "w2");
+		registerThread(w3.get_id(), "w3");
+
+		std::jthread p1(producer);
 
 
-	std::this_thread::sleep_for(std::chrono::seconds(10)); // 10 sn çalıştır
+		std::this_thread::sleep_for(std::chrono::seconds(10)); // 10 sn çalıştır
 
-	running = false;
-	cv.notify_all();
-	*/
+		running = false;
+		cv.notify_all();
+		*/
 
 	CorruptedThread corruptedThread;
 
@@ -134,11 +134,18 @@ int main()
 		std::jthread w1([&] {corruptedThread.add(20); });
 		std::jthread w2([&] {corruptedThread.subtract(10); });
 		std::jthread w3([&] {corruptedThread.divide(2); });
+
 	}
-	
 
+	FixedThread fixedThread;
+	{
+		std::jthread w4([&] {fixedThread.add(20);  });
+		std::jthread w5([&] {fixedThread.subtract(10);  });
+		std::jthread w6([&] {fixedThread.divide(2); });
+	}
 
-	std::cout << corruptedThread.victim;
+	std::cout << corruptedThread.victim<<'\n';
 
+	std::cout << fixedThread.fixedVictim<<'\n';
 }
 
