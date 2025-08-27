@@ -20,9 +20,14 @@ void CorruptedThread::createWorkersByAddFunction()
 
 	}
 
+	
 	for (auto& w : workers) 
 	{
-		w.join();
+		if (w.joinable() )
+		{
+			w.join();
+		}
+		
 	}
 
 

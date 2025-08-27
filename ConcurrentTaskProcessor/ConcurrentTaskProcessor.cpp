@@ -128,12 +128,20 @@ int main()
 		cv.notify_all();
 		*/
 
-	CorruptedThread corruptedThread(24);
-
-	corruptedThread.createWorkersByAddFunction();
 	
-
 	
+	for (int i = 1 ; i < 26; i++)
+	{
+
+		CorruptedThread* corruptedThread = new CorruptedThread(i);
+	
+		corruptedThread->createWorkersByAddFunction();
+
+		delete corruptedThread; // işi bitince delete etmen gerekir!
+
+	}
+
+
 
 }
 
