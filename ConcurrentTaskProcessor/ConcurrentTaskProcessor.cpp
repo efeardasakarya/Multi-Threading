@@ -128,24 +128,26 @@ int main()
 		cv.notify_all();
 		*/
 
-	CorruptedThread corruptedThread;
+	CorruptedThread corruptedThread(24);
+	std::vector<std::jthread> workers;
 
+	for (int i = 0; i < corruptedThread.threads; i++)
 	{
-		std::jthread w1([&] {corruptedThread.add(20); });
-		std::jthread w2([&] {corruptedThread.subtract(10); });
-		std::jthread w3([&] {corruptedThread.divide(2); });
-
+		workers.emplace_back( [&] { corruptedThread.add(); });
 	}
+	
 
-	FixedThread fixedThread;
-	{
-		std::jthread w4([&] {fixedThread.add(20);  });
-		std::jthread w5([&] {fixedThread.subtract(10);  });
-		std::jthread w6([&] {fixedThread.divide(2); });
-	}
+	
+		//std::jthread w1([&] {corruptedThread.add();});
+		
+
+
+		
+		
+	
 
 	std::cout << corruptedThread.victim<<'\n';
 
-	std::cout << fixedThread.fixedVictim<<'\n';
+	//std::cout << fixedThread.fixedVictim<<'\n';
 }
 

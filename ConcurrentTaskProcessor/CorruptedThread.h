@@ -7,10 +7,13 @@ class CorruptedThread
 {
 public:
 
+	CorruptedThread(int threads);
+
 	int victim = 0;
 
+	int threads = 0;
 
-	void add(int a);
+	void add();
 
 
 	void subtract(int b);
