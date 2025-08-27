@@ -129,24 +129,11 @@ int main()
 		*/
 
 	CorruptedThread corruptedThread(24);
-	std::vector<std::jthread> workers;
 
-	//Corrupted
-	auto start = std::chrono::high_resolution_clock::now(); // start before thread creating
+	corruptedThread.createWorkersByAddFunction();
+	
 
-	for (int i = 0; i < corruptedThread.threads; i++)
-	{
-		workers.emplace_back([&] { corruptedThread.add(); });
-	}
-	auto end = std::chrono::high_resolution_clock::now(); // after threads joined 
-
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start); // Passed time while creating threads
-
-	std::cout << "Time passed by for loop: " << duration.count() / 1000 << std::endl;
-
-
-	std::cout << corruptedThread.victim << '\n';
-
+	
 
 }
 

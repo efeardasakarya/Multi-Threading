@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <mutex>
 #include <condition_variable>
+#include <vector>
 
 
 class CorruptedThread
@@ -8,6 +9,8 @@ class CorruptedThread
 public:
 
 	CorruptedThread(int threads);
+
+	void createWorkersByAddFunction();
 
 	int victim = 0;
 
@@ -18,7 +21,7 @@ public:
 
 	void subtract(int b);
 
-
+	std::vector<std::jthread> workers;
 
 
 	void divide(int c);
