@@ -12,26 +12,25 @@ CorruptedThread::CorruptedThread(int threads)
 void CorruptedThread::createWorkersByAddFunction()
 {
 
-
-	std::latch done(threads);
-
 	auto start = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < threads; i++)
 	{
 
-		workers.emplace_back([&] { add(); done.count_down(); });
+		workers.emplace_back([&] { add();  });
 
 	}
 
-	done.wait();
+	for (auto& w : workers) 
+	{
+		w.join();
+	}
 
-	workers.clear();
 
 	auto end = std::chrono::high_resolution_clock::now();
 
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-	std::cout << "Workers created and destroyed " << double(duration.count()) / 1000.0 << " milisecond" << '\n';
+	std::cout << "Workers created and destroyed " << double(duration.count()) / 1000.0 << " second" << '\n';
 
 	std::cout << victim << '\n';
 
