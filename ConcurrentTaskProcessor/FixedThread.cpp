@@ -15,14 +15,19 @@ void FixedThread::createWorkersByAddFunction()
 {
 
 	auto start = std::chrono::high_resolution_clock::now();
-	for (int i = 0; i < threads; i++)
+
+	
+
+	
+	for ( iterator=0; iterator < threads ; iterator++ )
 	{
 		
 		workers.emplace_back([&] { add();  });
 		
 
 	}
-
+	std::cout << "Start" << iterator << "count thread with Safe Condition" << '\n';
+	std::cout << '\n';
 
 	for (auto& w : workers)
 	{
@@ -39,13 +44,14 @@ void FixedThread::createWorkersByAddFunction()
 
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-	std::cout << "Workers created and destroyed in fixed" << double(duration.count()) / 1000.0 << " second" << '\n';
+	
 
 	std::cout << fixedVictim << '\n';
+	std::cout << '\n';
 
+	std::cout << "End "<< iterator << "count thread with Safe Condition. End in " << double(duration.count()) / 1000.0 << " second" << '\n';
+	std::cout << '\n';
 }
-
-
 
 void FixedThread::add()
 {
@@ -58,19 +64,6 @@ void FixedThread::add()
 }
 
 
-void FixedThread::subtract(int b)
-{
-	//std::lock_guard<std::mutex> lock(mtx);
-	//fixedVictim -= b;
-}
-
-
-
-void FixedThread::divide(int c)
-{
-	//std::lock_guard<std::mutex> lock(mtx);
-	//fixedVictim /= c;
-}
 
 
 

@@ -127,7 +127,7 @@ int main()
 		cv.notify_all();
 		*/
 	
-	
+	/*
 	for (int i = 1 ; i < 25; i++)
 	{
 		CorruptedThread corruptedThread(i);
@@ -135,7 +135,7 @@ int main()
 		corruptedThread.createWorkersByAddFunction();
 
 	}
-	
+	*/
 
 	for (int i = 1; i < 25; i++)
 	{

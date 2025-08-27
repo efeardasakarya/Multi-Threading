@@ -43,8 +43,6 @@ void CorruptedThread::createWorkersByAddFunction()
 
 }
 
-
-
 void CorruptedThread::add()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -53,21 +51,4 @@ void CorruptedThread::add()
 	}
 
 }
-
-
-void CorruptedThread::subtract(int b)
-{
-
-	victim -= b;
-}
-
-
-
-void CorruptedThread::divide(int c)
-{
-
-	victim /= c;
-}
-
-
 

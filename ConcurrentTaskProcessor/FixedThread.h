@@ -13,19 +13,19 @@ public:
 
 	std::vector<std::jthread> workers;
 
+	int threads = 0;
+
+	std::atomic<int> fixedVictim{ 0 };
+
 	FixedThread(int threads);
+
+	int iterator = 1;
 
 	void createWorkersByAddFunction();
 
-	std::atomic<int> fixedVictim{0};
-
-	int threads = 0;
-
 	void add();
 
-	void subtract(int b);
-
-	void divide(int c);
+	
 
 };
 

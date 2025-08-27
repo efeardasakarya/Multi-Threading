@@ -8,23 +8,24 @@ class CorruptedThread
 {
 public:
 
-	CorruptedThread(int threads);
-
-	void createWorkersByAddFunction();
-
 	int victim = 0;
 
 	int threads = 0;
 
+	std::vector<std::jthread> workers;
+
+	CorruptedThread(int threads);
+
+	void createWorkersByAddFunction();
+
 	void add();
 
 
-	void subtract(int b);
+	
 
-	std::vector<std::jthread> workers;
+	
 
 
-	void divide(int c);
 	
 
 
