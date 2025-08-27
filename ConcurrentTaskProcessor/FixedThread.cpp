@@ -49,6 +49,7 @@ void FixedThread::createWorkersByAddFunction()
 
 void FixedThread::add()
 {
+	std::scoped_lock<std::mutex> lock(mtx);
 	for (int i = 0; i < 1000000; i++)
 	{
 		fixedVictim++;
