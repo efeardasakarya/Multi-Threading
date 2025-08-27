@@ -29,15 +29,17 @@ void CorruptedThread::createWorkersByAddFunction()
 		}
 		
 	}
+	workers.clear();
 
 
 	auto end = std::chrono::high_resolution_clock::now();
 
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-	std::cout << "Workers created and destroyed " << double(duration.count()) / 1000.0 << " second" << '\n';
+	std::cout << "Workers created and destroyed in corrupted " << double(duration.count()) / 1000.0 << " second" << '\n';
 
-	std::cout << victim << '\n';
+
+	std::cout <<  victim << '\n';
 
 }
 

@@ -1,5 +1,4 @@
-﻿// ConcurrentTaskProcessor.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿// ConcurrentTaskProcessor.cpp : This file contains the 'main' function. Program execution begins and ends there.0
 //Headers
 #include <iostream>
 #include <vector>
@@ -127,19 +126,25 @@ int main()
 		running = false;
 		cv.notify_all();
 		*/
-
 	
 	
-	for (int i = 1 ; i < 26; i++)
+	for (int i = 1 ; i < 25; i++)
 	{
-
-		CorruptedThread* corruptedThread = new CorruptedThread(i);
+		CorruptedThread corruptedThread(i);
 	
-		corruptedThread->createWorkersByAddFunction();
-
-		delete corruptedThread; // işi bitince delete etmen gerekir!
+		corruptedThread.createWorkersByAddFunction();
 
 	}
+	
+
+	for (int i = 1; i < 25; i++)
+	{
+		FixedThread fixedThread(i);
+
+		fixedThread.createWorkersByAddFunction();
+	}
+
+
 
 
 

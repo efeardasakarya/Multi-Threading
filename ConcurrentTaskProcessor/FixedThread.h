@@ -1,14 +1,27 @@
 ﻿#pragma once
 #include <mutex>
+#include <vector>
+#include <thread>
+#include <atomic>
 
 class FixedThread
 {
 
 public:
 
-	int fixedVictim = 0;
+	std::mutex mtx;
 
-	void add(int a);
+	std::vector<std::jthread> workers;
+
+	FixedThread(int threads);
+
+	void createWorkersByAddFunction();
+
+	std::atomic<int> fixedVictim{0};
+
+	int threads = 0;
+
+	void add();
 
 	void subtract(int b);
 
